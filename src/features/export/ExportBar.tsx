@@ -1,3 +1,5 @@
+"use client";
+
 const ExportBar = () => {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">

@@ -19,7 +19,48 @@ export interface Trial {
   country: string;
 }
 
+export interface ClinicalStudy {
+  protocolSection?: {
+    identificationModule?: {
+      nctId?: string;
+      briefTitle?: string;
+    };
+    statusModule?: {
+      overallStatus?: string;
+      startDateStruct?: {
+        date?: string;
+      };
+    };
+    designModule?: {
+      phases?: string[];
+      phase?: string;
+      enrollmentInfo?: {
+        count?: string;
+      };
+    };
+    armsInterventionsModule?: {
+      interventions?: Array<{
+        type?: string;
+        name?: string;
+      }>;
+    };
+    conditionsModule?: {
+      conditions?: string[];
+    };
+    sponsorCollaboratorsModule?: {
+      leadSponsor?: {
+        name?: string;
+      };
+    };
+    contactsLocationsModule?: {
+      locations?: Array<{
+        country?: string;
+      }>;
+    };
+  };
+}
+
 export interface TrialsResponse {
-  studies: Trial[];
-  nextPageToken?: string;
+  studies?: ClinicalStudy[];
+  nextPageToken?: string | null;
 }

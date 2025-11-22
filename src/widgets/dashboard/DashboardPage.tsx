@@ -10,7 +10,7 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur">
-        <Container className="flex items-center justify-between">
+        <Container className="flex items-center justify-center">
           <h1 className="text-lg font-semibold">
             Drug Development Insights Dashboard
           </h1>
