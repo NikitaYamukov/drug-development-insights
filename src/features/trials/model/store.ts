@@ -33,10 +33,10 @@ interface TrialsState {
 const useTrialsStore = create<TrialsState>((set) => ({
   filters: { ...DEFAULT_FILTERS },
   appliedFilters: { ...DEFAULT_FILTERS },
-  pageNumber: 0,
+  pageNumber: 1,
   currentPageToken: null,
   prevTokens: [],
-  hasSearched: false,
+  hasSearched: true,
   setFilter: (key, value) =>
     set((state) => ({
       filters: { ...state.filters, [key]: value } as TrialsFilters,

@@ -3,7 +3,11 @@ export type TrialStatus =
   | "Active, not recruiting"
   | "Completed"
   | "Terminated"
-  | string;
+  | "Enrolling by invitation"
+  | "Not yet recruiting"
+  | "Suspended"
+  | "Withdrawn"
+  | "Unknown status";
 
 export interface Trial {
   nctId: string;
@@ -12,7 +16,7 @@ export interface Trial {
   phase: string;
   interventionType: string;
   interventionName: string;
-  enrollment: string | number;
+  enrollment: number;
   startDate: string;
   status: TrialStatus;
   sponsor: string;
@@ -60,7 +64,12 @@ export interface ClinicalStudy {
   };
 }
 
-export interface TrialsResponse {
+export interface ClinicalTrialsApiResponse {
   studies?: ClinicalStudy[];
+  nextPageToken?: string | null;
+}
+
+export interface TrialsResponse {
+  studies?: Trial[];
   nextPageToken?: string | null;
 }

@@ -1,4 +1,8 @@
-import { TrialsResponse } from "@entities/trial/model/types";
+import {
+  ClinicalTrialsApiResponse,
+  TrialsResponse,
+} from "@entities/trial/model/types";
+import { mapTrialsResponse } from "@entities/trial/model/mapper";
 import { TrialsFilters } from "../model/types";
 
 const API_URL = "https://clinicaltrials.gov/api/v2/studies";
@@ -10,7 +14,10 @@ const normalizeCustomValue = (value: string, custom: string) => {
 
 export const buildQueryTerm = (filters: TrialsFilters) => {
   const parts: string[] = [];
-  const condition = normalizeCustomValue(filters.condition, filters.customCondition);
+  const condition = normalizeCustomValue(
+    filters.condition,
+    filters.customCondition
+  );
   const company = normalizeCustomValue(filters.company, filters.customCompany);
   if (condition) parts.push(condition);
   if (company) parts.push(company);
@@ -36,13 +43,19 @@ export const fetchTrials = async ({
     params.set("pageToken", pageToken);
   }
 
-  const response = await fetch(`${API_URL}?${params.toString()}`);
-  if (!response.ok) {
-    throw new Error(`ClinicalTrials API error: ${response.status} ${response.statusText}`);
+  try {
+    const response = await fetch(`${API_URL}?${params.toString()}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `ClinicalTrials API error: ${response.status} ${response.statusText}\n${errorText}`
+      );
+    }
+
+    const data = (await response.json()) as ClinicalTrialsApiResponse;
+    return mapTrialsResponse(data);
+  } catch (error) {
+    console.error("Failed to fetch trials:", error);
+    throw error;
   }
-  const data = (await response.json()) as TrialsResponse;
-  return {
-    studies: data.studies ?? [],
-    nextPageToken: data.nextPageToken ?? null,
-  };
 };
